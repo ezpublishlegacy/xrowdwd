@@ -25,6 +25,11 @@
                     <td align="center" class="xrowdwd_temperature_cell">{$item.temp|wash()}&deg;C</td>
                 {/foreach}
             </tr>
+            <tr class="xrowdwd_logo">
+                <td colspan="3" align="center" class="xrowdwd_logo_cell">
+                    &copy; Deutscher Wetterdienst
+                </td>
+            </tr> 
         </table>
     </div>
 {/if}
