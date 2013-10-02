@@ -106,68 +106,70 @@ class xrowDWDTemplateOperators
                 
                 //replacing the multiple spaces
                 $temp_content = preg_replace('!\s+!', ' ', $temp_content);
-                $temp_content = explode( " ", trim($temp_content[1]), 3 );
+                $temp_content = explode( "Berlin", trim($temp_content[1]) );
+                $temp_content = explode( " ", $temp_content[0]);
                 $remote_content[$key]["temp"] = $temp_content[0];
-                
+                $temp_state = trim( str_replace( $remote_content[$key]["temp"], "", implode(" ", $temp_content) ));
+
                 //state mapping for the images
-                if ( in_array( $temp_content[1], array("wolkenlos")  ) )
+                if ( in_array( $temp_state, array("wolkenlos")  ) )
                 {
                     $remote_content[$key]["img"] = 0;
                 }
-                else if ( in_array( $temp_content[1], array("gering bewölkt", "heiter")  ) )
+                else if ( in_array( $temp_state, array("gering bewölkt", "heiter")  ) )
                 {
                     $remote_content[$key]["img"] = 1;
                 }
-                else if ( in_array( $temp_content[1], array("bewölkt", "leicht bewölkt")  ) )
+                else if ( in_array( $temp_state, array("bewölkt", "leicht bewölkt")  ) )
                 {
                     $remote_content[$key]["img"] = 2;
                 }
-                else if ( in_array( $temp_content[1], array("bedeckt")  ) )
+                else if ( in_array( $temp_state, array("bedeckt")  ) )
                 {
                     $remote_content[$key]["img"] = 3;
                 }
-                else if ( in_array( $temp_content[1], array("Nebel", "Dunst oder flacher Nebel", "in Wolken")  ) )
+                else if ( in_array( $temp_state, array("Nebel", "Dunst oder flacher Nebel", "in Wolken")  ) )
                 {
                     $remote_content[$key]["img"] = 4;
                 }
-                else if ( in_array( $temp_content[1], array("leichter Regen", "Regenschauer")  ) )
+                else if ( in_array( $temp_state, array("leichter Regen", "Regenschauer")  ) )
                 {
                     $remote_content[$key]["img"] = 5;
                 }
-                else if ( in_array( $temp_content[1], array("Regen")  ) )
+                else if ( in_array( $temp_state, array("Regen")  ) )
                 {
                     $remote_content[$key]["img"] = 6;
                 }
-                else if ( in_array( $temp_content[1], array( "leichter Schneefall", "Schneefall", "Schneefegen", "Schneeschauer", "Graupelschauer", "Hagelschauer", "Schneeregen", "Schneeregenschauer", "leichter Schneeregen" )  ) )
+                else if ( in_array( $temp_state, array( "leichter Schneefall", "Schneefall", "Schneefegen", "Schneeschauer", "Graupelschauer", "Hagelschauer", "Schneeregen", "Schneeregenschauer", "leichter Schneeregen" )  ) )
                 {
                     $remote_content[$key]["img"] = 7;
                 }
-                else if ( in_array( $temp_content[1], array( "kein signifikantes Wetter" )  ) )
+                else if ( in_array( $temp_state, array( "kein signifikantes Wetter" )  ) )
                 {
                     $remote_content[$key]["img"] = 8;
                 }
-                else if ( in_array( $temp_content[1], array( "schweres Gewitter", "starkes Gewitter", "Gewitter" )  ) )
+                else if ( in_array( $temp_state, array( "schweres Gewitter", "starkes Gewitter", "Gewitter" )  ) )
                 {
                     $remote_content[$key]["img"] = 9;
                 }
-                else if ( in_array( $temp_content[1], array( "Sandsturm" )  ) )
+                else if ( in_array( $temp_state, array( "Sandsturm" )  ) )
                 {
                     $remote_content[$key]["img"] = 14;
                 }
-                else if ( in_array( $temp_content[1], array( "kräftiger Regenschauer" )  ) )
+                else if ( in_array( $temp_state, array( "kräftiger Regenschauer" )  ) )
                 {
                     $remote_content[$key]["img"] = 15;
                 }
-                else if ( in_array( $temp_content[1], array( "Glatteisbildung", "kräftiger Regen" )  ) )
+                else if ( in_array( $temp_state, array( "Glatteisbildung", "kräftiger Regen" )  ) )
                 {
                     $remote_content[$key]["img"] = 16;
                 }
-                else if ( in_array( $temp_content[1], array( "kräftiger Hagelschauer", "kräftiger Schneeregen", "kräftiger Graupelschauer", "kräftiger Schneeschauer", "kräftiger Schneeregenschauer", "kräftiger Schneefall" )  ) )
+                else if ( in_array( $temp_state, array( "kräftiger Hagelschauer", "kräftiger Schneeregen", "kräftiger Graupelschauer", "kräftiger Schneeschauer", "kräftiger Schneeregenschauer", "kräftiger Schneefall" )  ) )
                 {
                     $remote_content[$key]["img"] = 17;
                 }
 
-                $remote_content[$key]["state"] = $temp_content[1];
+                $remote_content[$key]["state"] = $temp_state;
 
             }
         }
