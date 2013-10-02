@@ -101,16 +101,13 @@ class xrowDWDTemplateOperators
 
             if ( !isset( $remote_content[$key] ) )
             {
-                //important to encode it for the umlauts
-                $temp_content = explode( "Hannover", utf8_encode($temp_content) );
-                
-                //replacing the multiple spaces
-                $temp_content = preg_replace('!\s+!', ' ', $temp_content);
-                $temp_content = explode( "Berlin", trim($temp_content[1]) );
-                $temp_content = explode( " ", $temp_content[0]);
-                $remote_content[$key]["temp"] = $temp_content[0];
-                $temp_state = trim( str_replace( $remote_content[$key]["temp"], "", implode(" ", $temp_content) ));
+                $pattern = "/[^\\n]*Hannover[^\\n]*/";
+                preg_match_all($pattern, utf8_encode($temp_content), $town_line);
+                $temp_content = preg_split('/  +/', $town_line[0][0]);
 
+                $remote_content[$key]["temp"] = $temp_content[1];
+                $temp_state = $temp_content[2];
+                
                 //state mapping for the images
                 if ( in_array( $temp_state, array("wolkenlos")  ) )
                 {
