@@ -66,6 +66,8 @@ class xrowDWDTemplateOperators
         {
             $city = $xrowdwdini->variable('xrowDWDSettings', 'FallbackCity');
         }
+        
+        $day = date("d.m.y");
 
         foreach ( $xrowdwdini->variable('xrowDWDSettings', 'URLs') as $key => $url )
         {
@@ -101,12 +103,45 @@ class xrowDWDTemplateOperators
 
             if ( !isset( $remote_content[$key] ) )
             {
-                $pattern = "/[^\\n]*Hannover[^\\n]*/";
+                $pattern = "/[^\\n]*" . $city . "[^\\n]*/";
                 preg_match_all($pattern, utf8_encode($temp_content), $town_line);
-                $temp_content = preg_split('/  +/', $town_line[0][0]);
 
-                $remote_content[$key]["temp"] = $temp_content[1];
-                $temp_state = $temp_content[2];
+                $db = eZDB::instance();
+                $result_set = $db->arrayQuery("SELECT * FROM dwd_archive WHERE day_clean = '$day';");
+
+                if(isset($town_line[0][0]))
+                {
+                    
+                    $temp_content = preg_split('/  +/', $town_line[0][0]);
+                    $remote_content[$key]["temp"] = $temp_content[1];
+                    $temp_state = $temp_content[2];
+
+                    //WE ASSUME THAT THE FIRST FOREACHED ELEMENT WILL BE "TODAY"
+                    if( $key === 0)
+                    {
+                        if ( count($result_set) === 0 )
+                        {
+                            $db->begin();
+                            $db->arrayQuery("INSERT INTO dwd_archive ( day_clean, write_ts, temperature, state ) VALUES ( '$day' , " . time() . ", " . $remote_content[$key]["temp"] . ", '$temp_state' );");
+                            $db->commit();
+                        }
+                        else
+                        {
+                            if ( $result_set[0]["temperature"] != $remote_content[$key]["temp"] OR $result_set[0]["state"] != $temp_state )
+                            {
+                                $db->begin();
+                                $db->arrayQuery("UPDATE dwd_archive SET temperature = " . $remote_content[$key]["temp"] . ", state = '$temp_state' WHERE day_clean = '$day' ;");
+                                $db->commit();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    //WE ASSUME THAT THE DATA IS NOT AVAILABLE SO FALL BACK TO THE DB!
+                    $remote_content[$key]["temp"] = $result_set[0]["temperature"];
+                    $temp_state = $result_set[0]["state"];
+                }
                 
                 //state mapping for the images
                 if ( in_array( $temp_state, array("wolkenlos")  ) )
