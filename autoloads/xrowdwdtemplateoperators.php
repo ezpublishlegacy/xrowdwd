@@ -48,7 +48,7 @@ class xrowDWDTemplateOperators
 
     function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        eZDebug::accumulatorStart('dwd_data', 'dwd_total', 'Deutscher wetter Dienst'); 
+        eZDebug::accumulatorStart('dwd_data', 'Deutscher Wetter Dienst (DWD)', 'Fetch data'); 
         $xrowdwdini  = eZINI::instance('xrowdwd.ini');
         $remote_content = array();
         
