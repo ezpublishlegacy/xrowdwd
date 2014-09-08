@@ -48,6 +48,7 @@ class xrowDWDTemplateOperators
 
     function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        eZDebug::accumulatorStart('dwd_data', 'dwd_total', 'Deutscher wetter Dienst'); 
         $xrowdwdini  = eZINI::instance('xrowdwd.ini');
         $remote_content = array();
         
@@ -82,7 +83,7 @@ class xrowDWDTemplateOperators
                 curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
                 curl_setopt( $ch, CURLOPT_HEADER, 0 );
                 curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-                curl_setopt( $ch, CURLOPT_TIMEOUT, 30 );
+                curl_setopt( $ch, CURLOPT_TIMEOUT, 1 );
                 curl_setopt( $ch, CURLOPT_ENCODING, "UTF-8" );
                 if( $login_name && $login_pw ){
                     curl_setopt($ch, CURLOPT_USERPWD, $login_name . ':' . $login_pw);
@@ -205,7 +206,7 @@ class xrowDWDTemplateOperators
 
             }
         }
-
+        eZDebug::accumulatorStop('dwd_data');
         $operatorValue = $remote_content;
     }
 }
