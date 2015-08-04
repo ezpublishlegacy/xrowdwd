@@ -123,7 +123,7 @@ class xrowDWDTemplateOperators
                         if ( count($result_set) === 0 )
                         {
                             $db->begin();
-                            $db->arrayQuery("INSERT INTO dwd_archive ( day_clean, write_ts, temperature, state ) VALUES ( '$day' , " . time() . ", " . $remote_content[$key]["temp"] . ", '$temp_state' );");
+                            $db->arrayQuery("INSERT INTO dwd_archive ( day_clean, write_ts, temperature, state ) VALUES ( '$day' , " . time() . ", '" . $remote_content[$key]["temp"] . "', '$temp_state' );");
                             $db->commit();
                         }
                         else
@@ -131,7 +131,7 @@ class xrowDWDTemplateOperators
                             if ( $result_set[0]["temperature"] != $remote_content[$key]["temp"] OR $result_set[0]["state"] != $temp_state )
                             {
                                 $db->begin();
-                                $db->arrayQuery("UPDATE dwd_archive SET temperature = " . $remote_content[$key]["temp"] . ", state = '$temp_state' WHERE day_clean = '$day' ;");
+                                $db->arrayQuery("UPDATE dwd_archive SET temperature = '" . $remote_content[$key]["temp"] . "', state = '$temp_state' WHERE day_clean = '$day' ;");
                                 $db->commit();
                             }
                         }
