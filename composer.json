@@ -1,6 +1,6 @@
 {
     "name": "xrow/xrowdwd-ls",
-    "description": "Weather solution using the "Deutsche Wetterdienst" platform",
+    "description": "Weather solution using the 'Deutsche Wetterdienst' platform",
     "type": "ezpublish-legacy-extension",
     "license": "GPL-2.0",
     "authors": [
