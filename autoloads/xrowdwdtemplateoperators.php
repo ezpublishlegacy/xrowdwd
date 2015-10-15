@@ -43,7 +43,8 @@ class xrowDWDTemplateOperators
     function namedParameterList()
     {
         return array( 'getDWDdata' => array( 'city' => array( 'type' => 'string',
-                                                              'required' => false ) ) );
+                                                              'required' => false,
+                                                              'default' => '' ) ) );
     }
 
     function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
@@ -58,12 +59,13 @@ class xrowDWDTemplateOperators
             $login_pw = $xrowdwdini->variable('xrowDWDSettings', 'AuthPassword');
         }
         
+        $city = $namedParameters['city'];
         if ( isset($namedParameters['city']) AND $namedParameters['city'] != "" )
         {
             $city = $namedParameters['city'];
         }
         
-        if( !isset($city) && $xrowdwdini->hasVariable('xrowDWDSettings', 'FallbackCity'))
+        if( $city == "" && $xrowdwdini->hasVariable('xrowDWDSettings', 'FallbackCity'))
         {
             $city = $xrowdwdini->variable('xrowDWDSettings', 'FallbackCity');
         }
@@ -74,8 +76,6 @@ class xrowDWDTemplateOperators
         {
             if ( function_exists( 'curl_init' ) )
             {
-                
-                
                 $curl_is_set = true;
                 $ch = curl_init();
                 curl_setopt( $ch, CURLOPT_URL, $url );
