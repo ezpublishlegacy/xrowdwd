@@ -83,7 +83,7 @@ class xrowDWDTemplateOperators
                 curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
                 curl_setopt( $ch, CURLOPT_HEADER, 0 );
                 curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-                curl_setopt( $ch, CURLOPT_TIMEOUT, 10 );
+                curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
                 curl_setopt( $ch, CURLOPT_ENCODING, "UTF-8" );
                 if( $login_name && $login_pw ){
                     curl_setopt($ch, CURLOPT_USERPWD, $login_name . ':' . $login_pw);
