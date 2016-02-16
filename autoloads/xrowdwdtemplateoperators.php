@@ -96,10 +96,13 @@ class xrowDWDTemplateOperators
                 if ( $info['http_code'] != 226 )
                 {
                     $remote_content[$key] = false;
-                    eZDebug::writeError( "URL ($url) is not avialable ", __METHOD__ );
+                    eZDebug::writeError( "URL ($url) is not available(Response Code: " . $info['http_code'] . " ) ", __METHOD__ );
+                }
+                else
+                {
+                    eZDebug::writeDebug( "URL ($url) accessed", __METHOD__ );
                 }
                 curl_close( $ch );
-                eZDebug::writeDebug( "URL ($url) included", __METHOD__ );
             }
 
             if ( !isset( $remote_content[$key] ) )
